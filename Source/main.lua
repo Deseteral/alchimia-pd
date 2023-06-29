@@ -75,6 +75,8 @@ end
 Engine.activeStage = nil
 Engine.width = 400
 Engine.height = 240
+Engine.primaryColor = playdate.graphics.kColorBlack
+Engine.secondaryColor = playdate.graphics.kColorWhite
 Engine.ticks = 0
 Engine.shouldCountTicks = true
 ____exports.Engine = Engine
@@ -117,6 +119,8 @@ import("CoreLibs/object");
     Engine:changeStage(initialStage)
 end)(nil)
 playdate.update = function()
+    playdate.graphics.clear(Engine.secondaryColor)
+    playdate.graphics.setColor(Engine.primaryColor)
     local stage = Engine.activeStage
     stage:update()
     stage:render()

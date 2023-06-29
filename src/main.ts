@@ -10,6 +10,9 @@ import { MainMenuStage } from 'src/main-menu-stage';
 }());
 
 playdate.update = () => {
+  playdate.graphics.clear(Engine.secondaryColor);
+  playdate.graphics.setColor(Engine.primaryColor);
+
   const stage = Engine.activeStage!;
   stage.update();
   stage.render();

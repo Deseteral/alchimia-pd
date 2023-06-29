@@ -8,6 +8,9 @@ abstract class Engine {
   static readonly width = 400;
   static readonly height = 240;
 
+  static readonly primaryColor = playdate.graphics.kColorBlack;
+  static readonly secondaryColor = playdate.graphics.kColorWhite;
+
   static ticks: number = 0;
   static shouldCountTicks: boolean = true;
 
