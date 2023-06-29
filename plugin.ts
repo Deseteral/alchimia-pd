@@ -1,8 +1,7 @@
 import * as ts from 'typescript';
 import * as tstl from 'typescript-to-lua';
 import { FunctionVisitor, TransformationContext } from 'typescript-to-lua';
-import { transformClassInstanceFields } from 'typescript-to-lua/dist/transformation/visitors/class/members/fields';
-import { transformClassDeclaration as defaultTransformClassDeclaration } from 'typescript-to-lua/dist/transformation/visitors/class';
+import { transformClassInstanceFields, transformStaticPropertyDeclaration } from 'typescript-to-lua/dist/transformation/visitors/class/members/fields';
 import {
   getExtendedNode,
   isStaticNode,
@@ -149,14 +148,6 @@ function transformMethodDeclaration(
 export const transformClassDeclaration: FunctionVisitor<
   ts.ClassLikeDeclaration
 > = (declaration, context) => {
-  const isAbstractClass = declaration.getFirstToken()?.kind == ts.SyntaxKind.AbstractKeyword;
-
-  // If the class is abstract just use default tranform from TSTL.
-  // Otherwise transpile to Playdate specific class system.
-  if (isAbstractClass) {
-    return defaultTransformClassDeclaration(declaration, context);
-  }
-
   let className: tstl.Identifier;
   if (declaration.name) {
     className = tstl.createIdentifier(declaration.name.text);
@@ -176,6 +167,7 @@ export const transformClassDeclaration: FunctionVisitor<
 
   // Divide properties into static and non-static
   const instanceFields = properties.filter((prop) => !isStaticNode(prop));
+  const staticFields = properties.filter((prop) => isStaticNode(prop));
 
   const statements: tstl.Statement[] = [];
 
@@ -201,9 +193,22 @@ export const transformClassDeclaration: FunctionVisitor<
 
   const methods = declaration.members
     .filter(ts.isMethodDeclaration)
+    .filter(node => {
+      // Skip abstact method declarations.
+      const modifiers = ts.getModifiers(node);
+      const isAbstract = modifiers?.some(modifier => modifier.kind === ts.SyntaxKind.AbstractKeyword);
+      return !isAbstract;
+    })
     .map((method) => transformMethodDeclaration(context, method, className))
     .filter((method): method is tstl.Statement => method !== undefined);
   statements.push(...methods);
+
+  // Initialize static fields
+  staticFields.forEach((field) => {
+    const s = transformStaticPropertyDeclaration(context, field, className);
+    if (!s) return;
+    statements.push(s);
+  });
 
   return statements;
 };
