@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "es2016",
+    "module": "commonjs",
+    "types": [
+      "lua-types/5.4"
+    ],
+    "outDir": "Source",
+    "strict": true,
+    "skipLibCheck": true
+  },
+  "tstl": {
+    "luaTarget": "5.4",
+    "luaPlugins": [
+      {
+        "name": "./plugin.ts"
+      }
+    ],
+    "luaBundle": "main.lua",
+    "luaBundleEntry": "./src/main.ts",
+  },
+  "exclude": [
+    "src-web/**/*",
+    "plugin.ts"
+  ]
+}
