@@ -12,10 +12,6 @@ function tick(): void {
   context.fillRect(0, 0, Engine.width, Engine.height);
   context.fillStyle = Engine.primaryColor;
   context.strokeStyle = Engine.primaryColor;
-
-  const stage = Engine.activeStage!;
-  stage.update();
-  stage.render(context);
 }
 
 (async function main(): Promise<void> {

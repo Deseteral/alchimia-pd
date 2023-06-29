@@ -4,15 +4,9 @@ import { GameState } from 'src/game/game-state';
 import { generateRecipes } from 'src/game/recipes';
 
 export abstract class Engine {
-  static activeStage: (Stage | null) = null;
-
   static state: GameState;
 
-  static changeStage(nextStage: Stage): void {
-    this.activeStage?.onDestroy();
-    this.activeStage = nextStage;
-    this.activeStage.onActivate();
-  }
+
 
   static saveGame(): void {
     try {
