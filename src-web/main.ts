@@ -16,12 +16,6 @@ function tick(): void {
   const stage = Engine.activeStage!;
   stage.update();
   stage.render(context);
-
-  Input.update();
-
-  if (Engine.shouldCountTicks) Engine.ticks += 1;
-
-  requestAnimationFrame(tick);
 }
 
 (async function main(): Promise<void> {

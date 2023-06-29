@@ -1,9 +1,9 @@
+import { Engine } from 'src/engine/engine';
 import { Input } from 'src/engine/input';
 
 (function main() {
-  console.log('init');
 }());
 
 playdate.update = () => {
-  console.log(Input.getKey('a'));
+  if (Engine.shouldCountTicks) Engine.ticks += 1;
 };

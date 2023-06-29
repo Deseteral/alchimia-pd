@@ -2526,6 +2526,21 @@ return {
   __TS__Unpack = __TS__Unpack
 }
  end,
+["engine.engine"] = function(...) 
+local ____lualib = require("lualib_bundle")
+local __TS__Class = ____lualib.__TS__Class
+local ____exports = {}
+local Engine = __TS__Class()
+Engine.name = "Engine"
+function Engine.prototype.____constructor(self)
+end
+Engine.width = 400
+Engine.height = 240
+Engine.ticks = 0
+Engine.shouldCountTicks = true
+____exports.Engine = Engine
+return ____exports
+ end,
 ["engine.input"] = function(...) 
 local ____lualib = require("lualib_bundle")
 local __TS__Class = ____lualib.__TS__Class
@@ -2554,6 +2569,8 @@ return ____exports
 ["main"] = function(...) 
 --[[ Generated with https://github.com/TypeScriptToLua/TypeScriptToLua ]]
 local ____exports = {}
+local ____engine = require("engine.engine")
+local Engine = ____engine.Engine
 local ____input = require("engine.input")
 local Input = ____input.Input;
 (function(self)
@@ -2561,6 +2578,9 @@ local Input = ____input.Input;
 end)(nil)
 playdate.update = function()
     print(Input:getKey("a"))
+    if Engine.shouldCountTicks then
+        Engine.ticks = Engine.ticks + 1
+    end
 end
 return ____exports
  end,
