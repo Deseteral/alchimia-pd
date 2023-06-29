@@ -25,11 +25,6 @@ function tick(): void {
 }
 
 (async function main(): Promise<void> {
-  canvas.width = Engine.width;
-  canvas.height = Engine.height;
-  context.imageSmoothingEnabled = false;
-
-  Input.initialize(canvas);
 
   preloadSounds();
   await Textures.loadTextures();
