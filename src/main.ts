@@ -1,4 +1,9 @@
+import { Input } from './engine/input';
+
+(function main() {
+  console.log('init');
+}());
 
 playdate.update = () => {
-  console.log('im in loop!');
+  console.log(Input.getKey('a'));
 };
