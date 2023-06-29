@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        ".compilerc": "json",
-        "*.geojson": "json",
-        "_types.h": "c"
-    }
-}
