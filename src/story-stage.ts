@@ -4,9 +4,10 @@ import { Input } from 'src/engine/input';
 import { playSound, Sound } from 'src/engine/sounds';
 import { Stage } from 'src/engine/stage';
 import { Textures } from 'src/engine/textures';
-import { WorkshopStage } from 'src/game/workshop-stage';
+import { clamp } from 'src/game/utils';
+// import { WorkshopStage } from 'src/game/workshop-stage';
 
-export class StoryStage extends Stage {
+class StoryStage extends Stage {
   pageNumber = 0;
 
   pages: (string[])[] = [
@@ -80,7 +81,7 @@ export class StoryStage extends Stage {
       '',
       '',
       '',
-      'Press Enter to begin',
+      'Press A to begin',
     ],
   ];
 
@@ -96,37 +97,39 @@ export class StoryStage extends Stage {
       this.pageNumber += 1;
       playSound(Sound.BOOK);
     }
-    this.pageNumber = Math.clamp(this.pageNumber, 0, Math.ceil(this.pages.length / 2) - 1);
+    this.pageNumber = clamp(this.pageNumber, 0, Math.ceil(this.pages.length / 2) - 1);
 
     if (this.pageNumber === 5 && Input.getKeyDown('a')) {
-      Engine.changeStage(new WorkshopStage());
+      // Engine.changeStage(new WorkshopStage()); // TODO: impl
       playSound(Sound.MENU_CONFIRM);
     }
   }
 
-  render(ctx: CanvasRenderingContext2D): void {
-    ctx.drawImage(Textures.bookTexture.normal, 0, 0);
+  render(): void {
+    Textures.bookTexture.normal.draw(0, 0);
 
     const t1: string[] = this.pages[this.pageNumber * 2];
     const t2: string[] = this.pages[this.pageNumber * 2 + 1];
 
-    if (t1) {
+    if (t1 !== undefined) {
       t1.forEach((line, idx) => {
-        Font.draw(line, 47, 24 + idx * (Font.charHeightSmall + 2), ctx, true);
+        Font.draw(line, 47, 24 + idx * (Font.charHeightSmall + 2), true);
       });
 
-      Font.draw(`${this.pageNumber * 2 + 1}`, 50, 200, ctx);
+      Font.draw(`${this.pageNumber * 2 + 1}`, 50, 200);
     }
 
-    if (t2) {
+    if (t2 !== undefined) {
       t2.forEach((line, idx) => {
-        Font.draw(line, 212, 24 + idx * (Font.charHeightSmall + 2), ctx, true);
+        Font.draw(line, 212, 24 + idx * (Font.charHeightSmall + 2), true);
       });
 
-      Font.draw(`${(this.pageNumber * 2 + 2).toString().padStart(2, ' ')}`, 340, 200, ctx);
+      Font.draw(`${(this.pageNumber * 2 + 2).toString().padStart(2, ' ')}`, 340, 200);
     }
   }
 
   onDestroy(): void {
   }
 }
+
+export { StoryStage };

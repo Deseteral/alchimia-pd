@@ -17,6 +17,10 @@
         "node_modules/*"
       ],
     },
+    "lib": [
+      "DOM",
+      "es2017"
+    ]
   },
   "tstl": {
     "luaTarget": "5.4",

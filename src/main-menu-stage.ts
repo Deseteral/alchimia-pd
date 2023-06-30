@@ -10,7 +10,7 @@ import { Textures } from 'src/engine/textures';
 import { clamp } from 'src/game/utils';
 // import { WorkshopStage } from 'src/game/workshop-stage';
 // import { HowToPlayStage } from 'src/how-to-play-stage';
-// import { StoryStage } from 'src/story-stage';
+import { StoryStage } from 'src/story-stage';
 
 class MainMenuStage extends Stage {
   cursor = 0;
@@ -34,7 +34,7 @@ class MainMenuStage extends Stage {
     if (Input.getKeyDown('a')) {
       if (this.cursor === 0) {
         Engine.newGame();
-        // Engine.changeStage(new StoryStage());
+        Engine.changeStage(new StoryStage());
       } else if (this.hasSaveData && this.cursor === 1) {
         Engine.loadGame();
         // Engine.changeStage(new WorkshopStage());
