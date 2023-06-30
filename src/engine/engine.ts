@@ -23,6 +23,19 @@ abstract class Engine {
     this.activeStage.onActivate();
   }
 
+  static saveGame(): void {
+    console.log('TODO: saveGame is not implemented');
+  }
+
+  static hasSavedData(): boolean {
+    console.log('TODO: hasSavedData is not implemented');
+    return false;
+  }
+
+  static loadGame(): void {
+    console.log('TODO: loadGame is not implemented');
+  }
+
   static newGame(): void {
     Engine.state = {
       preparedIngredients: [],

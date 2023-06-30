@@ -2823,6 +2823,16 @@ function Engine.changeStage(self, nextStage)
     self.activeStage = nextStage
     self.activeStage:onActivate()
 end
+function Engine.saveGame(self)
+    print("TODO: saveGame is not implemented")
+end
+function Engine.hasSavedData(self)
+    print("TODO: hasSavedData is not implemented")
+    return false
+end
+function Engine.loadGame(self)
+    print("TODO: loadGame is not implemented")
+end
 function Engine.newGame(self)
     Engine.state = {
         preparedIngredients = {},
