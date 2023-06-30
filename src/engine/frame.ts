@@ -6,7 +6,7 @@ function drawFrame(x: number, y: number, w: number, h: number, clippingRegion: (
   const patchSize = 9;
 
   const slice = playdate.graphics.nineSlice.new('images/frame', patchSize, patchSize, patchSize, patchSize);
-  slice.drawInRect(x, y, w, h);
+  slice.drawInRect(x - patchSize, y - patchSize, w + patchSize * 2, h + patchSize * 2);
 
   // Clipping content inside
   // ctx.save();

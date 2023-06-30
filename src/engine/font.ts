@@ -1,19 +1,19 @@
 import { Textures } from 'src/engine/textures';
 
-export abstract class Font {
+abstract class Font {
   static readonly charWidth = 10;
   static readonly charWidthSmall = 7;
   static readonly charHeight = 20;
   static readonly charHeightSmall = 14;
 
-  static draw(text: string, x: number, y: number, ctx: CanvasRenderingContext2D, small: boolean = false): void {
+  static draw(text: string, x: number, y: number, small: boolean = false): void {
     text.split('').forEach((letter, idx) => {
       const w = small ? Font.charWidthSmall : Font.charWidth;
       const h = small ? Font.charHeightSmall : Font.charHeight;
       const sx = (letter.charCodeAt(0) - 32) * w;
       const t = small ? Textures.fontSmallTexture.normal : Textures.fontTexture.normal;
 
-      ctx.drawImage(t, sx, 0, w, h, (x + (idx * w)), y, w, h);
+      t.draw((x + (idx * w)), y, playdate.graphics.kImageUnflipped, playdate.geometry.rect.new(sx, 0, w, h));
     });
   }
 
@@ -22,3 +22,5 @@ export abstract class Font {
     return text.length * w;
   }
 }
+
+export { Font };

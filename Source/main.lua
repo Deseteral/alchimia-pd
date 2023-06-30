@@ -2906,6 +2906,48 @@ end
 ____exports.Textures = Textures
 return ____exports
  end,
+["engine.font"] = function(...) 
+local ____lualib = require("lualib_bundle")
+local __TS__StringSplit = ____lualib.__TS__StringSplit
+local __TS__ArrayForEach = ____lualib.__TS__ArrayForEach
+local ____exports = {}
+local ____textures = require("engine.textures")
+local Textures = ____textures.Textures
+class("Font").extends(Object)
+Font.init = function(self)
+    Font.super.init(self)
+end
+function Font.draw(self, text, x, y, small)
+    if small == nil then
+        small = false
+    end
+    __TS__ArrayForEach(
+        __TS__StringSplit(text, ""),
+        function(____, letter, idx)
+            local w = small and Font.charWidthSmall or Font.charWidth
+            local h = small and Font.charHeightSmall or Font.charHeight
+            local sx = ((string.byte(letter, 1) or 0 / 0) - 32) * w
+            local t = small and Textures.fontSmallTexture.normal or Textures.fontTexture.normal
+            t:draw(
+                x + idx * w,
+                y,
+                playdate.graphics.kImageUnflipped,
+                playdate.geometry.rect.new(sx, 0, w, h)
+            )
+        end
+    )
+end
+function Font.lineLengthPx(self, text, small)
+    local w = small and Font.charWidthSmall or Font.charWidth
+    return #text * w
+end
+Font.charWidth = 10
+Font.charWidthSmall = 7
+Font.charHeight = 20
+Font.charHeightSmall = 14
+____exports.Font = Font
+return ____exports
+ end,
 ["engine.frame"] = function(...) 
 --[[ Generated with https://github.com/TypeScriptToLua/TypeScriptToLua ]]
 local ____exports = {}
@@ -2919,7 +2961,7 @@ local function drawFrame(self, x, y, w, h, clippingRegion)
         patchSize,
         patchSize
     )
-    slice:drawInRect(x, y, w, h)
+    slice:drawInRect(x - patchSize, y - patchSize, w + patchSize * 2, h + patchSize * 2)
     clippingRegion(nil)
 end
 ____exports.drawFrame = drawFrame
@@ -2954,6 +2996,8 @@ return ____exports
 local ____exports = {}
 local ____engine = require("engine.engine")
 local Engine = ____engine.Engine
+local ____font = require("engine.font")
+local Font = ____font.Font
 local ____frame = require("engine.frame")
 local drawFrame = ____frame.drawFrame
 local ____input = require("engine.input")
@@ -3006,6 +3050,13 @@ function MainMenuStage.render(self)
         function()
             local mx = x + 16 + 2
             Textures.listPointerRightTexture.normal:draw(x, y + 2 + 30 * self.cursor)
+            Font:draw("New game", mx, y)
+            if self.hasSaveData then
+                Font:draw("Continue", mx, y + 30)
+                Font:draw("How to play", mx, y + 30 * 2)
+            else
+                Font:draw("How to play", mx, y + 30)
+            end
         end
     )
 end
