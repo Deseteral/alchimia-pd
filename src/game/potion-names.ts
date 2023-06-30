@@ -1,4 +1,4 @@
-export const POTION_NAMES: string[] = [
+const POTION_NAMES: string[] = [
   'Sassafras',
   'Lichen',
   'Plume',
@@ -34,3 +34,5 @@ export const POTION_NAMES: string[] = [
   'Tialeabho',
   'Fotaimeih',
 ];
+
+export { POTION_NAMES };

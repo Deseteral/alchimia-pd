@@ -1,13 +1,8 @@
-import 'src/engine/utils';
 import { Stage } from 'src/engine/stage';
 import { GameState } from 'src/game/game-state';
 import { generateRecipes } from 'src/game/recipes';
 
 export abstract class Engine {
-  static state: GameState;
-
-
-
   static saveGame(): void {
     try {
       window.localStorage.setItem('save', JSON.stringify(Engine.state));
@@ -38,17 +33,4 @@ export abstract class Engine {
     }
   }
 
-  static newGame(): void {
-    Engine.state = {
-      preparedIngredients: [],
-      recipes: generateRecipes(),
-      orders: [],
-      gold: 0,
-      completedOrders: 0,
-      messageBoard: { messages: [] },
-      day: 0,
-      goldLastDay: 0,
-      debtPaid: false,
-    };
-  }
 }
