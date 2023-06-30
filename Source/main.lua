@@ -2831,30 +2831,6 @@ Engine.shouldCountTicks = true
 ____exports.Engine = Engine
 return ____exports
  end,
-["engine.input"] = function(...) 
---[[ Generated with https://github.com/TypeScriptToLua/TypeScriptToLua ]]
-local ____exports = {}
-local keyMap = {
-    up = playdate.kButtonUp,
-    down = playdate.kButtonDown,
-    left = playdate.kButtonLeft,
-    right = playdate.kButtonRight,
-    a = playdate.kButtonA,
-    b = playdate.kButtonB
-}
-class("Input").extends(Object)
-Input.init = function(self)
-    Input.super.init(self)
-end
-function Input.getKey(self, key)
-    return playdate.buttonIsPressed(keyMap[key])
-end
-function Input.getKeyDown(self, key)
-    return playdate.buttonJustPressed(keyMap[key])
-end
-____exports.Input = Input
-return ____exports
- end,
 ["engine.textures"] = function(...) 
 --[[ Generated with https://github.com/TypeScriptToLua/TypeScriptToLua ]]
 local ____exports = {}
@@ -2930,11 +2906,56 @@ end
 ____exports.Textures = Textures
 return ____exports
  end,
+["engine.frame"] = function(...) 
+--[[ Generated with https://github.com/TypeScriptToLua/TypeScriptToLua ]]
+local ____exports = {}
+import("CoreLibs/nineslice")
+local function drawFrame(self, x, y, w, h, clippingRegion)
+    local patchSize = 9
+    local slice = playdate.graphics.nineSlice.new(
+        "images/frame",
+        patchSize,
+        patchSize,
+        patchSize,
+        patchSize
+    )
+    slice:drawInRect(x, y, w, h)
+    clippingRegion(nil)
+end
+____exports.drawFrame = drawFrame
+return ____exports
+ end,
+["engine.input"] = function(...) 
+--[[ Generated with https://github.com/TypeScriptToLua/TypeScriptToLua ]]
+local ____exports = {}
+local keyMap = {
+    up = playdate.kButtonUp,
+    down = playdate.kButtonDown,
+    left = playdate.kButtonLeft,
+    right = playdate.kButtonRight,
+    a = playdate.kButtonA,
+    b = playdate.kButtonB
+}
+class("Input").extends(Object)
+Input.init = function(self)
+    Input.super.init(self)
+end
+function Input.getKey(self, key)
+    return playdate.buttonIsPressed(keyMap[key])
+end
+function Input.getKeyDown(self, key)
+    return playdate.buttonJustPressed(keyMap[key])
+end
+____exports.Input = Input
+return ____exports
+ end,
 ["main-menu-stage"] = function(...) 
 --[[ Generated with https://github.com/TypeScriptToLua/TypeScriptToLua ]]
 local ____exports = {}
 local ____engine = require("engine.engine")
 local Engine = ____engine.Engine
+local ____frame = require("engine.frame")
+local drawFrame = ____frame.drawFrame
 local ____input = require("engine.input")
 local Input = ____input.Input
 local ____stage = require("engine.stage")
@@ -2976,6 +2997,17 @@ function MainMenuStage.render(self)
     local h = 82
     local x = (Engine.width - w) / 2
     local y = 90
+    drawFrame(
+        nil,
+        x,
+        y,
+        w,
+        h,
+        function()
+            local mx = x + 16 + 2
+            Textures.listPointerRightTexture.normal:draw(x, y + 2 + 30 * self.cursor)
+        end
+    )
 end
 function MainMenuStage.onDestroy(self)
 end

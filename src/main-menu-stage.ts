@@ -2,7 +2,7 @@ require('CoreLibs/object');
 
 import { Engine } from 'src/engine/engine';
 // import { Font } from 'src/engine/font';
-// import { drawFrame } from 'src/engine/frame';
+import { drawFrame } from 'src/engine/frame';
 import { Input } from 'src/engine/input';
 // import { playSound, Sound } from 'src/engine/sounds';
 import { Stage } from 'src/engine/stage';
@@ -56,20 +56,20 @@ class MainMenuStage extends Stage {
     const x = (Engine.width - w) / 2;
     const y = 90;
 
-    // drawFrame(x, y, w, h, ctx, () => {
-    //   const mx = x + 16 + 2;
+    drawFrame(x, y, w, h, () => {
+      const mx = x + 16 + 2;
 
-    //   ctx.drawImage(Textures.listPointerRightTexture.normal, x, y + 2 + (30 * this.cursor));
+      Textures.listPointerRightTexture.normal.draw(x, y + 2 + (30 * this.cursor));
 
-    //   Font.draw('New game', mx, y, ctx);
+      // Font.draw('New game', mx, y, ctx);
 
-    //   if (this.hasSaveData) {
-    //     Font.draw('Continue', mx, y + 30, ctx);
-    //     Font.draw('How to play', mx, y + 30 * 2, ctx);
-    //   } else {
-    //     Font.draw('How to play', mx, y + 30, ctx);
-    //   }
-    // });
+      // if (this.hasSaveData) {
+      //   Font.draw('Continue', mx, y + 30, ctx);
+      //   Font.draw('How to play', mx, y + 30 * 2, ctx);
+      // } else {
+      //   Font.draw('How to play', mx, y + 30, ctx);
+      // }
+    });
   }
 
   onDestroy(): void {
