@@ -2991,6 +2991,34 @@ end
 ____exports.Input = Input
 return ____exports
  end,
+["engine.sounds"] = function(...) 
+--[[ Generated with https://github.com/TypeScriptToLua/TypeScriptToLua ]]
+local ____exports = {}
+local Sound = Sound or ({})
+Sound.MENU_PICK = "menu_pick"
+Sound.MENU_CONFIRM = "menu_confirm"
+Sound.BOOK = "book"
+Sound.NEW_CLIENT = "new_client"
+Sound.TABLE_MOVE = "table_move"
+Sound.BUBBLES = "bubbles"
+Sound.GOOD_POTION = "good_potion"
+Sound.BAD_POTION = "bad_potion"
+Sound.KNIFE = "knife"
+Sound.SPELL = "spell"
+Sound.SPELL_BAD = "spell_bad"
+local function playSound(self, sound, loop)
+    if loop == nil then
+        loop = false
+    end
+    local audio = playdate.sound.sampleplayer.new("sounds/" .. tostring(sound))
+    local repeatCount = loop and 0 or 1
+    audio:play(repeatCount)
+    return function() return audio:stop() end
+end
+____exports.Sound = Sound
+____exports.playSound = playSound
+return ____exports
+ end,
 ["main-menu-stage"] = function(...) 
 --[[ Generated with https://github.com/TypeScriptToLua/TypeScriptToLua ]]
 local ____exports = {}
@@ -3002,6 +3030,9 @@ local ____frame = require("engine.frame")
 local drawFrame = ____frame.drawFrame
 local ____input = require("engine.input")
 local Input = ____input.Input
+local ____sounds = require("engine.sounds")
+local playSound = ____sounds.playSound
+local Sound = ____sounds.Sound
 local ____stage = require("engine.stage")
 local Stage = ____stage.Stage
 local ____textures = require("engine.textures")
@@ -3020,9 +3051,11 @@ end
 function MainMenuStage.update(self)
     if Input:getKeyDown("up") then
         self.cursor = self.cursor - 1
+        playSound(nil, Sound.MENU_PICK)
     end
     if Input:getKeyDown("down") then
         self.cursor = self.cursor + 1
+        playSound(nil, Sound.MENU_PICK)
     end
     self.cursor = clamp(nil, self.cursor, 0, self.hasSaveData and 2 or 1)
     if Input:getKeyDown("a") then
@@ -3032,6 +3065,7 @@ function MainMenuStage.update(self)
             Engine:loadGame()
         elseif self.hasSaveData and self.cursor == 2 or not self.hasSaveData and self.cursor == 1 then
         end
+        playSound(nil, Sound.MENU_CONFIRM)
     end
 end
 function MainMenuStage.render(self)

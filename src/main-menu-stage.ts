@@ -4,7 +4,7 @@ import { Engine } from 'src/engine/engine';
 import { Font } from 'src/engine/font';
 import { drawFrame } from 'src/engine/frame';
 import { Input } from 'src/engine/input';
-// import { playSound, Sound } from 'src/engine/sounds';
+import { playSound, Sound } from 'src/engine/sounds';
 import { Stage } from 'src/engine/stage';
 import { Textures } from 'src/engine/textures';
 import { clamp } from 'src/game/utils';
@@ -22,11 +22,11 @@ class MainMenuStage extends Stage {
   update(): void {
     if (Input.getKeyDown('up')) {
       this.cursor -= 1;
-      // playSound(Sound.MENU_PICK);
+      playSound(Sound.MENU_PICK);
     }
     if (Input.getKeyDown('down')) {
       this.cursor += 1;
-      // playSound(Sound.MENU_PICK);
+      playSound(Sound.MENU_PICK);
     }
 
     this.cursor = clamp(this.cursor, 0, this.hasSaveData ? 2 : 1);
@@ -42,7 +42,7 @@ class MainMenuStage extends Stage {
         // Engine.changeStage(new HowToPlayStage());
       }
 
-      // playSound(Sound.MENU_CONFIRM);
+      playSound(Sound.MENU_CONFIRM);
     }
   }
 
