@@ -1,10 +1,12 @@
 require('CoreLibs/object');
 
 import { Engine } from 'src/engine/engine';
-import { Input } from 'src/engine/input';
+import { Textures } from 'src/engine/textures';
 import { MainMenuStage } from 'src/main-menu-stage';
 
 (function main() {
+  Textures.loadTextures();
+
   const initialStage = new MainMenuStage();
   Engine.changeStage(initialStage);
 }());
