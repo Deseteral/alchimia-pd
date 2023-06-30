@@ -2537,31 +2537,6 @@ end
 ____exports.Stage = Stage
 return ____exports
  end,
-["main-menu-stage"] = function(...) 
---[[ Generated with https://github.com/TypeScriptToLua/TypeScriptToLua ]]
-local ____exports = {}
-local ____stage = require("engine.stage")
-local Stage = ____stage.Stage
-import("CoreLibs/object")
-class("MainMenuStage").extends(Stage)
-MainMenuStage.init = function(self)
-    MainMenuStage.super.init(self)
-end
-function MainMenuStage.onActivate(self)
-    print("onActivate")
-end
-function MainMenuStage.update(self)
-    print("update")
-end
-function MainMenuStage.render(self)
-    print("render")
-end
-function MainMenuStage.onDestroy(self)
-    print("onDestroy")
-end
-____exports.MainMenuStage = MainMenuStage
-return ____exports
- end,
 ["game.ingredients"] = function(...) 
 --[[ Generated with https://github.com/TypeScriptToLua/TypeScriptToLua ]]
 local ____exports = {}
@@ -2880,15 +2855,145 @@ end
 ____exports.Input = Input
 return ____exports
  end,
+["engine.textures"] = function(...) 
+--[[ Generated with https://github.com/TypeScriptToLua/TypeScriptToLua ]]
+local ____exports = {}
+local tableUrl = "table"
+local burningUrl = "burning"
+local cuttingUrl = "cutting"
+local enchantingUrl = "enchanting"
+local grindingUrl = "grinding"
+local enchantingKeyUpUrl = "enchanting_keyup"
+local enchantingKeyRightUrl = "enchanting_keyright"
+local enchantingKeyDownUrl = "enchanting_keydown"
+local enchantingKeyLeftUrl = "enchanting_keyleft"
+local cauldronUrl = "cauldron"
+local frameUrl = "frame"
+local bubbleSmallUrl = "bubble_small"
+local bubbleLargeUrl = "bubble_large"
+local fireUrl = "fire"
+local flowerUrl = "flower"
+local herbUrl = "herb"
+local knifeUrl = "knife"
+local mortarUrl = "mortar"
+local mushroomUrl = "mushroom"
+local spellUrl = "spell"
+local stoneUrl = "stone"
+local xUrl = "x"
+local bookUrl = "book"
+local listPointerRightUrl = "list_pointer_right"
+local coinUrl = "coin"
+local circleUrl = "circle"
+local menuLogoUrl = "menu_logo"
+local fontUrl = "font"
+local fontSmallUrl = "font_small"
+class("Textures").extends(Object)
+Textures.init = function(self)
+    Textures.super.init(self)
+end
+function Textures.loadTextures(self)
+    Textures.burningTexture = Textures:load(burningUrl)
+    Textures.cuttingTexture = Textures:load(cuttingUrl)
+    Textures.enchantingTexture = Textures:load(enchantingUrl)
+    Textures.grindingTexture = Textures:load(grindingUrl)
+    Textures.tableTexture = Textures:load(tableUrl)
+    Textures.enchantingKeyUpTexture = Textures:load(enchantingKeyUpUrl)
+    Textures.enchantingKeyRightTexture = Textures:load(enchantingKeyRightUrl)
+    Textures.enchantingKeyDownTexture = Textures:load(enchantingKeyDownUrl)
+    Textures.enchantingKeyLeftTexture = Textures:load(enchantingKeyLeftUrl)
+    Textures.cauldronTexture = Textures:load(cauldronUrl)
+    Textures.frameTexture = Textures:load(frameUrl)
+    Textures.bubbleSmallTexture = Textures:load(bubbleSmallUrl)
+    Textures.bubbleLargeTexture = Textures:load(bubbleLargeUrl)
+    Textures.fireTexture = Textures:load(fireUrl)
+    Textures.flowerTexture = Textures:load(flowerUrl)
+    Textures.herbTexture = Textures:load(herbUrl)
+    Textures.knifeTexture = Textures:load(knifeUrl)
+    Textures.mortarTexture = Textures:load(mortarUrl)
+    Textures.mushroomTexture = Textures:load(mushroomUrl)
+    Textures.spellTexture = Textures:load(spellUrl)
+    Textures.stoneTexture = Textures:load(stoneUrl)
+    Textures.xTexture = Textures:load(xUrl)
+    Textures.bookTexture = Textures:load(bookUrl)
+    Textures.listPointerRightTexture = Textures:load(listPointerRightUrl)
+    Textures.coinTexture = Textures:load(coinUrl)
+    Textures.circleTexture = Textures:load(circleUrl)
+    Textures.menuLogoTexture = Textures:load(menuLogoUrl)
+    Textures.fontTexture = Textures:load(fontUrl)
+    Textures.fontSmallTexture = Textures:load(fontSmallUrl)
+end
+function Textures.load(self, name)
+    local normal = playdate.graphics.image.new("images/" .. name)
+    local inverted = normal:invertedImage()
+    return {normal = normal, inverted = inverted}
+end
+____exports.Textures = Textures
+return ____exports
+ end,
+["main-menu-stage"] = function(...) 
+--[[ Generated with https://github.com/TypeScriptToLua/TypeScriptToLua ]]
+local ____exports = {}
+local ____engine = require("engine.engine")
+local Engine = ____engine.Engine
+local ____input = require("engine.input")
+local Input = ____input.Input
+local ____stage = require("engine.stage")
+local Stage = ____stage.Stage
+local ____textures = require("engine.textures")
+local Textures = ____textures.Textures
+local ____utils = require("game.utils")
+local clamp = ____utils.clamp
+import("CoreLibs/object")
+class("MainMenuStage").extends(Stage)
+MainMenuStage.init = function(self)
+    MainMenuStage.super.init(self)
+    self.cursor = 0
+    self.hasSaveData = Engine:hasSavedData()
+end
+function MainMenuStage.onActivate(self)
+end
+function MainMenuStage.update(self)
+    if Input:getKeyDown("up") then
+        self.cursor = self.cursor - 1
+    end
+    if Input:getKeyDown("down") then
+        self.cursor = self.cursor + 1
+    end
+    self.cursor = clamp(nil, self.cursor, 0, self.hasSaveData and 2 or 1)
+    if Input:getKeyDown("a") then
+        if self.cursor == 0 then
+            Engine:newGame()
+        elseif self.hasSaveData and self.cursor == 1 then
+            Engine:loadGame()
+        elseif self.hasSaveData and self.cursor == 2 or not self.hasSaveData and self.cursor == 1 then
+        end
+    end
+end
+function MainMenuStage.render(self)
+    playdate.graphics.drawRect(0, 0, Engine.width, Engine.height)
+    Textures.menuLogoTexture.normal:draw(0, 0)
+    local w = 132
+    local h = 82
+    local x = (Engine.width - w) / 2
+    local y = 90
+end
+function MainMenuStage.onDestroy(self)
+end
+____exports.MainMenuStage = MainMenuStage
+return ____exports
+ end,
 ["main"] = function(...) 
 --[[ Generated with https://github.com/TypeScriptToLua/TypeScriptToLua ]]
 local ____exports = {}
 local ____engine = require("engine.engine")
 local Engine = ____engine.Engine
+local ____textures = require("engine.textures")
+local Textures = ____textures.Textures
 local ____main_2Dmenu_2Dstage = require("main-menu-stage")
 local MainMenuStage = ____main_2Dmenu_2Dstage.MainMenuStage
 import("CoreLibs/object");
 (function(self)
+    Textures:loadTextures()
     local initialStage = MainMenuStage()
     Engine:changeStage(initialStage)
 end)(nil)
