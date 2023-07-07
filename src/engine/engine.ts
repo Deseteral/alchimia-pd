@@ -1,5 +1,3 @@
-require('CoreLibs/object');
-
 import { Stage } from 'src/engine/stage';
 import { GameState } from 'src/game/game-state';
 import { generateRecipes } from 'src/game/recipes';

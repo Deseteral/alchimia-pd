@@ -1,0 +1,40 @@
+--[[ Generated with https://github.com/TypeScriptToLua/TypeScriptToLua ]]
+local ____exports = {}
+____exports.POTION_NAMES = {
+    "Sassafras",
+    "Lichen",
+    "Plume",
+    "Clouddash",
+    "Magitwill",
+    "Figcliff",
+    "Bumbelake",
+    "Stardust",
+    "Hige",
+    "Skulerth",
+    "Yllan",
+    "Ravyzo",
+    "Fyshlell",
+    "Kolnill",
+    "Sall",
+    "Miodh",
+    "Madadh",
+    "Siornonem",
+    "Binghiala",
+    "Fiomh",
+    "Doibheagh",
+    "Latroill",
+    "Leotais",
+    "Iadilimh",
+    "Meonghais",
+    "Dann",
+    "Lag",
+    "Coill",
+    "Foisa",
+    "Boingath",
+    "Diomeath",
+    "Rilraidh",
+    "Tialeabho",
+    "Fotaimeih"
+}
+POTION_NAMES = ____exports.POTION_NAMES
+return ____exports

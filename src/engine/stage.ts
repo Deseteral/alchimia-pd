@@ -1,5 +1,3 @@
-require('CoreLibs/object');
-
 abstract class Stage {
   abstract onActivate(): void;
   abstract update(): void;

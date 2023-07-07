@@ -1,4 +1,4 @@
-enum Ingredient {
+export enum Ingredient {
   HERB,
   MUSHROOM,
   STONE,
@@ -6,7 +6,7 @@ enum Ingredient {
   FLOWER,
 }
 
-const Ingredients = [
+export const Ingredients = [
   Ingredient.HERB,
   Ingredient.MUSHROOM,
   Ingredient.STONE,
@@ -14,26 +14,26 @@ const Ingredients = [
   Ingredient.FLOWER,
 ];
 
-enum IngredientAction {
+export enum IngredientAction {
   CUTTING,
   GRIDING,
   BURNING,
   ENCHANTING,
 }
 
-const IngredientActions = [
+export const IngredientActions = [
   IngredientAction.CUTTING,
   IngredientAction.GRIDING,
   IngredientAction.BURNING,
   IngredientAction.ENCHANTING,
 ];
 
-interface PreparedIngredient {
+export interface PreparedIngredient {
   ingredient: Ingredient,
   action: IngredientAction,
 }
 
-function ingredientDisplayName(ingredient: Ingredient): string {
+export function ingredientDisplayName(ingredient: Ingredient): string {
   switch (ingredient) {
     case Ingredient.HERB: return 'Herb';
     case Ingredient.MUSHROOM: return 'Mushroom';
@@ -43,12 +43,3 @@ function ingredientDisplayName(ingredient: Ingredient): string {
     default: return 'bleh';
   }
 }
-
-export {
-  Ingredient,
-  Ingredients,
-  IngredientAction,
-  IngredientActions,
-  PreparedIngredient,
-  ingredientDisplayName,
-};

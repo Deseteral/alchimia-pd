@@ -5,7 +5,7 @@ import { playSound, Sound } from 'src/engine/sounds';
 import { Stage } from 'src/engine/stage';
 import { MainMenuStage } from 'src/main-menu-stage';
 
-export class HowToPlayStage extends Stage {
+class HowToPlayStage extends Stage {
   lines = [
     'Use WASD or arrow keys to move',
     'Esc to go back, Enter to confirm/activate',
@@ -34,14 +34,16 @@ export class HowToPlayStage extends Stage {
     }
   }
 
-  render(ctx: CanvasRenderingContext2D): void {
-    ctx.drawRect(0, 0, Engine.width, Engine.height);
+  render(): void {
+    playdate.graphics.drawRect(0, 0, Engine.width, Engine.height);
 
     this.lines.forEach((line, idx) => {
-      Font.draw(line, 3, idx * 15, ctx, true);
+      Font.draw(line, 3, idx * 15, true);
     });
   }
 
   onDestroy(): void {
   }
 }
+
+export { HowToPlayStage };

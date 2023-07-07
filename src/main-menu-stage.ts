@@ -1,5 +1,3 @@
-require('CoreLibs/object');
-
 import { Engine } from 'src/engine/engine';
 import { Font } from 'src/engine/font';
 import { drawFrame } from 'src/engine/frame';
@@ -9,7 +7,7 @@ import { Stage } from 'src/engine/stage';
 import { Textures } from 'src/engine/textures';
 import { clamp } from 'src/game/utils';
 // import { WorkshopStage } from 'src/game/workshop-stage';
-// import { HowToPlayStage } from 'src/how-to-play-stage';
+import { HowToPlayStage } from 'src/how-to-play-stage';
 import { StoryStage } from 'src/story-stage';
 
 class MainMenuStage extends Stage {
@@ -39,7 +37,7 @@ class MainMenuStage extends Stage {
         Engine.loadGame();
         // Engine.changeStage(new WorkshopStage());
       } else if ((this.hasSaveData && this.cursor === 2) || (!this.hasSaveData && this.cursor === 1)) {
-        // Engine.changeStage(new HowToPlayStage());
+        Engine.changeStage(new HowToPlayStage());
       }
 
       playSound(Sound.MENU_CONFIRM);

@@ -1,39 +1,40 @@
 {
   "compilerOptions": {
-    "target": "es2016",
-    "module": "commonjs",
+    "target": "ESNext",
+    "moduleResolution": "Node",
     "types": [
-      "lua-types/5.4"
+      "lua-types/5.4",
+      "@types/node",
     ],
     "outDir": "Source",
     "strict": true,
     "skipLibCheck": true,
+    "lib": [
+      "ESNext",
+      "DOM",
+    ],
     "baseUrl": "./",
     "paths": {
       "src/*": [
-        "./src/*"
+        "./src/*",
       ],
       "*": [
-        "node_modules/*"
+        "node_modules/*",
       ],
     },
-    "lib": [
-      "DOM",
-      "es2017"
-    ]
   },
   "tstl": {
     "luaTarget": "5.4",
     "luaPlugins": [
       {
-        "name": "./plugin.ts"
-      }
+        "name": "./plugin.ts",
+      },
     ],
-    "luaBundle": "main.lua",
-    "luaBundleEntry": "./src/main.ts",
+    "luaLibImport": "inline",
   },
   "exclude": [
     "src-web/**/*",
-    "plugin.ts"
+    "scripts/**/*",
+    "plugin.ts",
   ]
 }

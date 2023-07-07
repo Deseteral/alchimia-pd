@@ -247,6 +247,8 @@ const plugin: tstl.Plugin = {
         return context.superTransformExpression(node);
       }
     },
+    [ts.SyntaxKind.ImportDeclaration]: () => undefined,
+    [ts.SyntaxKind.ExportDeclaration]: () => undefined,
   },
 };
 export default plugin;

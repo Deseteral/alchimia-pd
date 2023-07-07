@@ -1,4 +1,4 @@
-enum Sound {
+export enum Sound {
   MENU_PICK = 'menu_pick',
   MENU_CONFIRM = 'menu_confirm',
   BOOK = 'book',
@@ -12,13 +12,11 @@ enum Sound {
   SPELL_BAD = 'spell_bad',
 }
 
-function playSound(sound: Sound, loop: boolean = false): (() => void) {
-  const audio = playdate.sound.sampleplayer.new(`sounds/${sound.toString()}`);
+export function playSound(sound: Sound, loop: boolean = false): (() => void) {
+  const audio = playdate.sound.sampleplayer.new(`sounds/${sound.toLowerCase()}`);
 
   const repeatCount = loop ? 0 : 1;
   audio.play(repeatCount);
 
   return () => audio.stop();
 }
-
-export { Sound, playSound };

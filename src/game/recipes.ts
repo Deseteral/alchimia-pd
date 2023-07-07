@@ -5,7 +5,7 @@ import { findMatchingRecipe, preparedIngredientEquals } from 'src/game/recipe-lo
 import { POTION_NAMES } from 'src/game/potion-names';
 import { randomRange } from 'src/game/utils';
 
-interface Recipe {
+export interface Recipe {
   name: string,
   ingredients: PreparedIngredient[],
 }
@@ -47,7 +47,7 @@ interface Recipe {
 //   });
 // }
 
-function generateRecipes(): Recipe[] {
+export function generateRecipes(): Recipe[] {
   const recipes: Recipe[] = [];
   const namePool: string[] = [...POTION_NAMES];
 
@@ -95,8 +95,3 @@ function generateRecipes(): Recipe[] {
 
   return recipes;
 }
-
-export {
-  Recipe,
-  generateRecipes,
-};
