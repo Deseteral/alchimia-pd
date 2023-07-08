@@ -24,6 +24,7 @@ function MainMenuStage.update(self)
             Engine:changeStage(StoryStage())
         elseif self.hasSaveData and self.cursor == 1 then
             Engine:loadGame()
+            Engine:changeStage(WorkshopStage())
         elseif self.hasSaveData and self.cursor == 2 or not self.hasSaveData and self.cursor == 1 then
             Engine:changeStage(HowToPlayStage())
         end

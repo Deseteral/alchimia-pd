@@ -1,5 +1,11 @@
 --[[ Generated with https://github.com/TypeScriptToLua/TypeScriptToLua ]]
 -- Lua Library inline imports
+local function __TS__ArrayForEach(self, callbackFn, thisArg)
+    for i = 1, #self do
+        callbackFn(thisArg, self[i], i - 1, self)
+    end
+end
+
 local function __TS__ArrayFindIndex(self, callbackFn, thisArg)
     for i = 1, #self do
         if callbackFn(thisArg, self[i], i - 1, self) then
@@ -88,6 +94,74 @@ local function __TS__ArraySplice(self, ...)
 end
 -- End of Lua Library inline imports
 local ____exports = {}
+function ____exports.getIngredientIcon(self, ingredient)
+    repeat
+        local ____switch3 = ingredient
+        local ____cond3 = ____switch3 == Ingredient.HERB
+        if ____cond3 then
+            return Textures.herbTexture.normal
+        end
+        ____cond3 = ____cond3 or ____switch3 == Ingredient.MUSHROOM
+        if ____cond3 then
+            return Textures.mushroomTexture.normal
+        end
+        ____cond3 = ____cond3 or ____switch3 == Ingredient.STONE
+        if ____cond3 then
+            return Textures.stoneTexture.normal
+        end
+        ____cond3 = ____cond3 or ____switch3 == Ingredient.GOLD
+        if ____cond3 then
+            return Textures.stoneTexture.inverted
+        end
+        ____cond3 = ____cond3 or ____switch3 == Ingredient.FLOWER
+        if ____cond3 then
+            return Textures.flowerTexture.normal
+        end
+        do
+            return Textures.xTexture.normal
+        end
+    until true
+end
+function ____exports.getIngredientActionIcon(self, action)
+    repeat
+        local ____switch5 = action
+        local ____cond5 = ____switch5 == IngredientAction.CUTTING
+        if ____cond5 then
+            return Textures.knifeTexture.normal
+        end
+        ____cond5 = ____cond5 or ____switch5 == IngredientAction.GRIDING
+        if ____cond5 then
+            return Textures.mortarTexture.normal
+        end
+        ____cond5 = ____cond5 or ____switch5 == IngredientAction.BURNING
+        if ____cond5 then
+            return Textures.fireTexture.normal
+        end
+        ____cond5 = ____cond5 or ____switch5 == IngredientAction.ENCHANTING
+        if ____cond5 then
+            return Textures.spellTexture.normal
+        end
+        do
+            return Textures.xTexture.normal
+        end
+    until true
+end
+function ____exports.drawPreparedIngredientRow(self, pi, x, y)
+    ____exports.getIngredientIcon(nil, pi.ingredient):draw(x, y)
+    Textures.xTexture.normal:draw(x + 16, y)
+    ____exports.getIngredientActionIcon(nil, pi.action):draw(x + 16 * 2, y)
+end
+function ____exports.drawRecipe(self, recipe, x, y)
+    Font:draw(recipe.name, x, y)
+    __TS__ArrayForEach(
+        recipe.ingredients,
+        function(____, ing, idx)
+            local xx = x + 5
+            local yy = y + 40 + (16 + 5) * idx
+            ____exports.drawPreparedIngredientRow(nil, ing, xx, yy)
+        end
+    )
+end
 function ____exports.generateRecipes(self)
     local recipes = {}
     local namePool = {table.unpack(POTION_NAMES)}
@@ -138,5 +212,9 @@ function ____exports.generateRecipes(self)
     )
     return recipes
 end
+getIngredientIcon = ____exports.getIngredientIcon
+getIngredientActionIcon = ____exports.getIngredientActionIcon
+drawPreparedIngredientRow = ____exports.drawPreparedIngredientRow
+drawRecipe = ____exports.drawRecipe
 generateRecipes = ____exports.generateRecipes
 return ____exports

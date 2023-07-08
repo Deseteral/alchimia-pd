@@ -97,6 +97,7 @@ function StoryStage.update(self)
         math.ceil(#self.pages / 2) - 1
     )
     if self.pageNumber == 5 and Input:getKeyDown("a") then
+        Engine:changeStage(WorkshopStage())
         playSound(nil, Sound.MENU_CONFIRM)
     end
 end

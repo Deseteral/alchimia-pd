@@ -10,5 +10,5 @@ export abstract class Table {
   }
 
   abstract update(isSelected: boolean, ticksUntilDayOver: number): void;
-  abstract render(ctx: CanvasRenderingContext2D): void;
+  abstract render(): void;
 }

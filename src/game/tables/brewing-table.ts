@@ -9,6 +9,7 @@ import { clientGoodbyeMessasge, orderCompleteMessage, recipeDoesNotExistMessage,
 import { findMatchingRecipe } from 'src/game/recipe-logic';
 import { drawPreparedIngredientRow, Recipe } from 'src/game/recipes';
 import { Table } from 'src/game/tables/table';
+import { clamp, randomRange } from 'src/game/utils';
 
 export class BrewingTable extends Table {
   showList = false;
@@ -23,6 +24,10 @@ export class BrewingTable extends Table {
 
   bubbleParticles: ({ x: number, y: number, velocity: number, isSmall: boolean, offset: number })[] = [];
   stopBubbleSoundCallback: ((() => void) | null) = null;
+
+  constructor(onNextTableCb: () => void, onPreviousTableCb: () => void, openBook: () => void) {
+    super(onNextTableCb, onPreviousTableCb, openBook);
+  }
 
   update(isSelected: boolean): void {
     this.ticksUntilBrewingDone -= 1;
@@ -76,7 +81,7 @@ export class BrewingTable extends Table {
             const recipe: (Recipe | null) = findMatchingRecipe(this.selectedIngredients, Engine.state.recipes);
 
             this.makingRecipe = recipe;
-            this.ticksUntilBrewingDone = Math.randomRange(3 * 60, 7 * 60);
+            this.ticksUntilBrewingDone = randomRange(3 * 60, 7 * 60);
 
             if (!this.stopBubbleSoundCallback) {
               this.stopBubbleSoundCallback = playSound(Sound.BUBBLES, true);
@@ -101,8 +106,8 @@ export class BrewingTable extends Table {
         playSound(Sound.MENU_CONFIRM);
       }
 
-      this.ingredientCursor = Math.clamp(this.ingredientCursor, 0, Engine.state.preparedIngredients.length - 1);
-      this.selectedIngredientCursor = Math.clamp(this.selectedIngredientCursor, 0, this.selectedIngredients.length);
+      this.ingredientCursor = clamp(this.ingredientCursor, 0, Engine.state.preparedIngredients.length - 1);
+      this.selectedIngredientCursor = clamp(this.selectedIngredientCursor, 0, this.selectedIngredients.length);
 
       return;
     }
@@ -121,11 +126,11 @@ export class BrewingTable extends Table {
     // Add new particles
     if (this.ticksUntilBrewingDone > 0) {
       this.bubbleParticles.push({
-        x: Math.randomRange(267, 360),
-        y: Math.randomRange(70, 110),
+        x: randomRange(267, 360),
+        y: randomRange(70, 110),
         velocity: 0,
         isSmall: Math.random() > 0.5,
-        offset: Math.randomRange(0, 1000),
+        offset: randomRange(0, 1000),
       });
     }
 
@@ -174,16 +179,16 @@ export class BrewingTable extends Table {
     }
   }
 
-  render(ctx: CanvasRenderingContext2D): void {
-    ctx.drawImage(Textures.tableTexture.normal, 0, 0);
-    ctx.drawImage(Textures.cauldronTexture.normal, 260, 80);
+  render(): void {
+    Textures.tableTexture.normal.draw(0, 0);
+    Textures.cauldronTexture.normal.draw(260, 80);
 
     if (this.showList) {
       const listWidth: number = 80;
       const maxCountOnPage: number = 9;
 
-      drawFrame(11, 11, listWidth, 218, ctx, () => {
-        Font.draw('Storage', 12, 8, ctx);
+      drawFrame(11, 11, listWidth, 218, () => {
+        Font.draw('Storage', 12, 8);
 
         const page: number = (this.ingredientCursor / maxCountOnPage) | 0;
         const startIdx: number = page * maxCountOnPage;
@@ -192,14 +197,14 @@ export class BrewingTable extends Table {
           const pi: PreparedIngredient = Engine.state.preparedIngredients[idx];
 
           const yy: number = 11 + Font.charHeight + (idx % maxCountOnPage) * (16 + 4);
-          if (idx === this.ingredientCursor && this.leftColumn) ctx.drawImage(Textures.listPointerRightTexture.normal, 11, yy);
-          drawPreparedIngredientRow(pi, 11 + 16 + 4, yy, ctx);
+          if (idx === this.ingredientCursor && this.leftColumn) Textures.listPointerRightTexture.normal.draw(11, yy);
+          drawPreparedIngredientRow(pi, 11 + 16 + 4, yy);
         }
       });
 
       const rightColumnX: number = 11 + listWidth + 20;
-      drawFrame(rightColumnX, 11, listWidth, 218, ctx, () => {
-        Font.draw('Selected', rightColumnX + 1, 8, ctx);
+      drawFrame(rightColumnX, 11, listWidth, 218, () => {
+        Font.draw('Selected', rightColumnX + 1, 8);
 
         const page: number = (this.selectedIngredientCursor / maxCountOnPage) | 0;
         const startIdx: number = page * maxCountOnPage;
@@ -209,23 +214,23 @@ export class BrewingTable extends Table {
           const pi: PreparedIngredient = this.selectedIngredients[idx];
 
           const yy: number = 11 + Font.charHeight + (idx % maxCountOnPage) * (16 + 4);
-          if (idx === this.selectedIngredientCursor && !this.leftColumn) ctx.drawImage(Textures.listPointerRightTexture.normal, rightColumnX, yy);
-          drawPreparedIngredientRow(pi, rightColumnX + 16 + 4, yy, ctx);
+          if (idx === this.selectedIngredientCursor && !this.leftColumn) Textures.listPointerRightTexture.normal.draw(rightColumnX, yy);
+          drawPreparedIngredientRow(pi, rightColumnX + 16 + 4, yy);
         }
 
         if (this.selectedIngredients.length > 0 && page === (pageCount - 1)) {
           const yy: number = 11 + Font.charHeight + (this.selectedIngredients.length % maxCountOnPage) * (16 + 4);
           if (this.selectedIngredientCursor === this.selectedIngredients.length && !this.leftColumn) {
-            ctx.drawImage(Textures.listPointerRightTexture.normal, rightColumnX, yy + 1);
+            Textures.listPointerRightTexture.normal.draw(rightColumnX, yy + 1);
           }
-          Font.draw('Brew!', rightColumnX + 16 + 4, yy, ctx);
+          Font.draw('Brew!', rightColumnX + 16 + 4, yy);
         }
       });
     }
 
     this.bubbleParticles.forEach((bubble) => {
       const t = bubble.isSmall ? Textures.bubbleSmallTexture : Textures.bubbleLargeTexture;
-      ctx.drawImage(t.normal, bubble.x + (Math.sin((Engine.ticks + bubble.offset) / 25) * 3) | 0, bubble.y);
+      t.normal.draw(bubble.x + (Math.sin((Engine.ticks + bubble.offset) / 25) * 3) | 0, bubble.y);
     });
   }
 

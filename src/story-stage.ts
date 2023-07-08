@@ -5,7 +5,7 @@ import { playSound, Sound } from 'src/engine/sounds';
 import { Stage } from 'src/engine/stage';
 import { Textures } from 'src/engine/textures';
 import { clamp } from 'src/game/utils';
-// import { WorkshopStage } from 'src/game/workshop-stage';
+import { WorkshopStage } from 'src/game/workshop-stage';
 
 class StoryStage extends Stage {
   pageNumber = 0;
@@ -100,7 +100,7 @@ class StoryStage extends Stage {
     this.pageNumber = clamp(this.pageNumber, 0, Math.ceil(this.pages.length / 2) - 1);
 
     if (this.pageNumber === 5 && Input.getKeyDown('a')) {
-      // Engine.changeStage(new WorkshopStage()); // TODO: impl
+      Engine.changeStage(new WorkshopStage());
       playSound(Sound.MENU_CONFIRM);
     }
   }

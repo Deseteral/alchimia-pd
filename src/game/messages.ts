@@ -1,8 +1,9 @@
 import { Message } from 'src/game/message-board';
 import { Recipe } from 'src/game/recipes';
+import { randomRange } from 'src/game/utils';
 
 function choice(list: string[]): string {
-  const idx: number = Math.randomRange(0, list.length - 1);
+  const idx: number = randomRange(0, list.length - 1);
   return list[idx];
 }
 
