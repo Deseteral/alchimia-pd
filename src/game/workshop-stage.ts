@@ -7,17 +7,16 @@ import { Stage } from 'src/engine/stage';
 import { Textures } from 'src/engine/textures';
 import { dayOverMessage } from 'src/game/messages';
 import { drawRecipe, Recipe } from 'src/game/recipes';
-import { Table } from 'src/game/tables/table';
 import { BrewingTable } from 'src/game/tables/brewing-table';
 import { ClientTable } from 'src/game/tables/client-table';
-// import { IngredientsTable } from 'src/game/tables/ingredients-table';
+import { IngredientsTable } from 'src/game/tables/ingredients-table';
 import { clamp } from 'src/game/utils';
 
 export class WorkshopStage extends Stage {
   selectedTable = 0;
   tables = [
     new ClientTable(() => this.nextTable(), () => this.prevTable(), () => this.openBook()),
-    // new IngredientsTable(() => this.nextTable(), () => this.prevTable(), () => this.openBook()),
+    new IngredientsTable(() => this.nextTable(), () => this.prevTable(), () => this.openBook()),
     new BrewingTable(() => this.nextTable(), () => this.prevTable(), () => this.openBook()),
   ];
 

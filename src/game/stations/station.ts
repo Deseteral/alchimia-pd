@@ -10,5 +10,5 @@ export abstract class Station {
   }
 
   abstract update(): void;
-  abstract render(ctx: CanvasRenderingContext2D): void;
+  abstract render(): void;
 }

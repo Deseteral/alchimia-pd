@@ -59,6 +59,11 @@ WorkshopStage.init = function(self)
             function() return self:prevTable() end,
             function() return self:openBook() end
         ),
+        IngredientsTable(
+            function() return self:nextTable() end,
+            function() return self:prevTable() end,
+            function() return self:openBook() end
+        ),
         BrewingTable(
             function() return self:nextTable() end,
             function() return self:prevTable() end,
