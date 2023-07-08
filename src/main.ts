@@ -1,3 +1,5 @@
+require('prelude');
+
 import { Engine } from 'src/engine/engine';
 import { Textures } from 'src/engine/textures';
 import { MainMenuStage } from 'src/main-menu-stage';

@@ -4,15 +4,15 @@ function walkTree(base: string = ''): string[] {
   const rootImports = fs.readdirSync(`./Source/${base}`)
     .filter((file) => file.endsWith('.lua'))
     .filter((file) => file !== 'main.lua')
+    .filter((file) => file !== 'prelude.lua')
     .filter((s) => s.length > 0)
     .map((file) => `${base ? `${base}/` : ''}${file}`);
 
   const dirsImports = fs.readdirSync(`./Source/${base}`)
     .filter((file) => !file.includes('.'))
     .filter((file) => file !== 'pdxinfo')
-    .filter((file) => file !== '.DS_Store')
     .filter((s) => s.length > 0)
-    .flatMap((dir) => walkTree(base + dir));
+    .flatMap((dir) => walkTree(base ? `${base}/${dir}` : dir));
 
   return [...rootImports, ...dirsImports];
 }
@@ -48,14 +48,3 @@ function defineExportsAsGlobals(filePath: string): void {
 const files = walkTree();
 
 files.forEach((file) => defineExportsAsGlobals(file));
-
-const intro = [
-  'import "CoreLibs/object"',
-  '',
-  ...files.map((file) => `import "${file.split('.')[0]}"`),
-  '',
-].join('\n');
-
-const src = fs.readFileSync('./Source/main.lua', { encoding: 'utf8' });
-const nextSrc = [intro, src].join('\n');
-fs.writeFileSync('./Source/main.lua', nextSrc, { encoding: 'utf8' });

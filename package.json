@@ -7,7 +7,7 @@
     "build": "npm run clean && tstl && npm run build:list-imports && pdc Source",
     "build:list-imports": "ts-node ./scripts/list-imports.ts",
     "start": "open Source.pdx",
-    "clean": "find ./Source -name \"*.lua\" -type f -delete"
+    "clean": "find ./Source -name \"*.lua\" ! -name \"prelude.lua\" -type f -delete"
   },
   "author": "",
   "license": "ISC",

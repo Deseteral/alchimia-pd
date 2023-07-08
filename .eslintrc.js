@@ -13,5 +13,6 @@ module.exports = {
     'no-lonely-if': 'off',
     'no-console': 'off',
     'import/first': 'off',
+    '@typescript-eslint/no-useless-constructor': 'off',
   },
 };
