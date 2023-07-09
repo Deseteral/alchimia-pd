@@ -2588,10 +2588,8 @@ declare namespace playdate {
   // UI Components
   export namespace ui {
     export namespace crankIndicator {
-      /** @noSelf */
-      export function start(): void;
-      /** @noSelf */
-      export function update(): void;
+      export function start(this: any): void;
+      export function update(this: any): void;
       export const clockwise: boolean;
     }
     export namespace gridview {

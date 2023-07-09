@@ -1,5 +1,6 @@
 --[[ Generated with https://github.com/TypeScriptToLua/TypeScriptToLua ]]
 local ____exports = {}
+import("CoreLibs/ui")
 class("GrindingStation").extends(Station)
 GrindingStation.init = function(self, cb)
     GrindingStation.super.init(self, cb)
@@ -16,6 +17,7 @@ GrindingStation.init = function(self, cb)
     self.previousTargetHit = -1
     self.progress = 0
     self.progressDrawRadius = 0
+    playdate.ui.crankIndicator:start()
 end
 function GrindingStation.update(self)
     local deg = playdate.getCrankPosition()
@@ -55,6 +57,9 @@ function GrindingStation.update(self)
     end
 end
 function GrindingStation.render(self)
+    if playdate.isCrankDocked() then
+        playdate.ui.crankIndicator:update()
+    end
     local xx = self.positionX - 70
     local yy = self.positionY - 70
     drawFrame(

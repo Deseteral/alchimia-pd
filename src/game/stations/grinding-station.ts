@@ -1,3 +1,5 @@
+require('CoreLibs/ui');
+
 import { Engine } from 'src/engine/engine';
 import { Font } from 'src/engine/font';
 import { drawFrame } from 'src/engine/frame';
@@ -19,6 +21,7 @@ export class GrindingStation extends Station {
 
   constructor(cb: StationCompleteCallback) {
     super(cb);
+    playdate.ui.crankIndicator.start();
   }
 
   update(): void {
@@ -56,6 +59,10 @@ export class GrindingStation extends Station {
   }
 
   render(): void {
+    if (playdate.isCrankDocked()) {
+      playdate.ui.crankIndicator.update();
+    }
+
     const xx = this.positionX - 70;
     const yy = this.positionY - 70;
 

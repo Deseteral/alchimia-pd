@@ -1,4 +1,5 @@
 require('prelude');
+require('CoreLibs/timer');
 
 import { Engine } from 'src/engine/engine';
 import { Textures } from 'src/engine/textures';
@@ -20,4 +21,6 @@ playdate.update = () => {
   stage.render();
 
   if (Engine.shouldCountTicks) Engine.ticks += 1;
+
+  playdate.timer.updateTimers();
 };

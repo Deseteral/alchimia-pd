@@ -1,6 +1,7 @@
 --[[ Generated with https://github.com/TypeScriptToLua/TypeScriptToLua ]]
 local ____exports = {}
-import("prelude");
+import("prelude")
+import("CoreLibs/timer");
 (function(self)
     Textures:loadTextures()
     local initialStage = MainMenuStage()
@@ -15,5 +16,6 @@ playdate.update = function()
     if Engine.shouldCountTicks then
         Engine.ticks = Engine.ticks + 1
     end
+    playdate.timer.updateTimers()
 end
 return ____exports
