@@ -7,7 +7,7 @@ import { Textures, Texture } from 'src/engine/textures';
 import { Ingredient, Ingredients, IngredientAction, ingredientDisplayName } from 'src/game/ingredients';
 import { getIngredientIcon } from 'src/game/recipes';
 // import { BurningStation } from 'src/game/stations/burning-station';
-// import { CuttingStation } from 'src/game/stations/cutting-station';
+import { CuttingStation } from 'src/game/stations/cutting-station';
 // import { EnchantmentStation } from 'src/game/stations/enchantment-station';
 // import { GrindingStation } from 'src/game/stations/grinding-station';
 import { Station, StationCompleteCallback } from 'src/game/stations/station';
@@ -77,7 +77,7 @@ export class IngredientsTable extends Table {
         };
 
         if (this.selectedStation === 0) {
-          // this.activeStation = new CuttingStation(cb);
+          this.activeStation = new CuttingStation(cb);
         } else if (this.selectedStation === 1) {
           // this.activeStation = new GrindingStation(cb);
         } else if (this.selectedStation === 2) {
@@ -145,7 +145,7 @@ export class IngredientsTable extends Table {
 
   private exitStation(): void {
     this.activeStation = null;
-    this.ignoringInputTicks = (0.5 * 60) | 0;
+    this.ignoringInputTicks = Math.floor(0.5 * 60);
     Engine.shouldCountTicks = true;
   }
 

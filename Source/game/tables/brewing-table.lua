@@ -314,7 +314,7 @@ function BrewingTable.render(self)
             218,
             function()
                 Font:draw("Storage", 12, 8)
-                local page = self.ingredientCursor / maxCountOnPage | 0
+                local page = math.floor(self.ingredientCursor / maxCountOnPage)
                 local startIdx = page * maxCountOnPage
                 do
                     local idx = startIdx
@@ -339,7 +339,7 @@ function BrewingTable.render(self)
             218,
             function()
                 Font:draw("Selected", rightColumnX + 1, 8)
-                local page = self.selectedIngredientCursor / maxCountOnPage | 0
+                local page = math.floor(self.selectedIngredientCursor / maxCountOnPage)
                 local startIdx = page * maxCountOnPage
                 local pageCount = math.ceil((#self.selectedIngredients + 1) / maxCountOnPage)
                 do
@@ -369,7 +369,7 @@ function BrewingTable.render(self)
         function(____, bubble)
             local t = bubble.isSmall and Textures.bubbleSmallTexture or Textures.bubbleLargeTexture
             t.normal:draw(
-                bubble.x + math.sin((Engine.ticks + bubble.offset) / 25) * 3 | 0,
+                bubble.x + math.floor(math.sin((Engine.ticks + bubble.offset) / 25) * 3),
                 bubble.y
             )
         end

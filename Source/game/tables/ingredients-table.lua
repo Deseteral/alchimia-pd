@@ -63,6 +63,7 @@ function IngredientsTable.update(self, isSelected)
                 self:exitStation()
             end
             if self.selectedStation == 0 then
+                self.activeStation = CuttingStation(cb)
             elseif self.selectedStation == 1 then
             elseif self.selectedStation == 2 then
             elseif self.selectedStation == 3 then
@@ -137,7 +138,7 @@ function IngredientsTable.drawStation(self, texture, x, y, isSelected)
 end
 function IngredientsTable.exitStation(self)
     self.activeStation = nil
-    self.ignoringInputTicks = 0.5 * 60 | 0
+    self.ignoringInputTicks = math.floor(0.5 * 60)
     Engine.shouldCountTicks = true
 end
 function IngredientsTable.canUseInput(self, isSelected)

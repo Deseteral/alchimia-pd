@@ -5,11 +5,16 @@ import { Input } from 'src/engine/input';
 import { playSound, Sound } from 'src/engine/sounds';
 import { Textures } from 'src/engine/textures';
 import { IngredientAction } from 'src/game/ingredients';
-import { Station } from 'src/game/stations/station';
+import { Station, StationCompleteCallback } from 'src/game/stations/station';
+import { clamp } from 'src/game/utils';
 
 export class CuttingStation extends Station {
   progress: number = 0;
   left: boolean = true;
+
+  constructor(cb: StationCompleteCallback) {
+    super(cb);
+  }
 
   update(): void {
     if (Input.getKeyDown('left') && this.left) {
@@ -25,37 +30,37 @@ export class CuttingStation extends Station {
     }
 
     this.progress -= 0.002;
-    this.progress = Math.clamp(this.progress, 0, 1);
+    this.progress = clamp(this.progress, 0, 1);
 
     if (this.progress >= 1) this.onStationCompleteCallback(true, IngredientAction.CUTTING);
     if (Input.getKeyDown('b')) this.onStationCompleteCallback(false, IngredientAction.CUTTING);
   }
 
-  render(ctx: CanvasRenderingContext2D): void {
+  render(): void {
     const xx = 100;
     const yy = 15;
 
-    drawFrame(xx, yy, 100, 55, ctx, () => {
+    drawFrame(xx, yy, 100, 55, () => {
       // Progress bar
-      ctx.drawRect(xx, yy, 100, 5);
-      ctx.fillRect(xx, yy, (100 * this.progress) | 0, 5);
+      playdate.graphics.drawRect(xx, yy, 100, 5);
+      playdate.graphics.fillRect(xx, yy, Math.floor(100 * this.progress), 5);
 
       // Keys
       const kxx = xx + 17;
       if (this.left) {
-        ctx.drawImage(Textures.enchantingKeyLeftTexture.normal, kxx, 30);
-        ctx.drawImage(Textures.enchantingKeyRightTexture.inverted, kxx + 35, 30);
+        Textures.enchantingKeyLeftTexture.normal.draw(kxx, 30);
+        Textures.enchantingKeyRightTexture.inverted.draw(kxx + 35, 30);
       } else {
-        ctx.drawImage(Textures.enchantingKeyLeftTexture.inverted, kxx, 30);
-        ctx.drawImage(Textures.enchantingKeyRightTexture.normal, kxx + 35, 30);
+        Textures.enchantingKeyLeftTexture.inverted.draw(kxx, 30);
+        Textures.enchantingKeyRightTexture.normal.draw(kxx + 35, 30);
       }
     });
 
     const helpWidth = 170;
     const helpX = Engine.width - helpWidth - 9 - 2;
-    drawFrame(helpX, yy, helpWidth, 26, ctx, () => {
-      Font.draw('Press left and right key', helpX, yy, ctx, true);
-      Font.draw('alternately to cut', helpX, yy + 12, ctx, true);
+    drawFrame(helpX, yy, helpWidth, 26, () => {
+      Font.draw('Press left and right key', helpX, yy, true);
+      Font.draw('alternately to cut', helpX, yy + 12, true);
     });
   }
 }

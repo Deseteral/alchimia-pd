@@ -190,7 +190,7 @@ export class BrewingTable extends Table {
       drawFrame(11, 11, listWidth, 218, () => {
         Font.draw('Storage', 12, 8);
 
-        const page: number = (this.ingredientCursor / maxCountOnPage) | 0;
+        const page: number = Math.floor(this.ingredientCursor / maxCountOnPage);
         const startIdx: number = page * maxCountOnPage;
 
         for (let idx = startIdx; idx < Math.min(startIdx + 9, Engine.state.preparedIngredients.length); idx += 1) {
@@ -206,7 +206,7 @@ export class BrewingTable extends Table {
       drawFrame(rightColumnX, 11, listWidth, 218, () => {
         Font.draw('Selected', rightColumnX + 1, 8);
 
-        const page: number = (this.selectedIngredientCursor / maxCountOnPage) | 0;
+        const page: number = Math.floor(this.selectedIngredientCursor / maxCountOnPage);
         const startIdx: number = page * maxCountOnPage;
         const pageCount: number = Math.ceil((this.selectedIngredients.length + 1) / maxCountOnPage);
 
@@ -230,7 +230,7 @@ export class BrewingTable extends Table {
 
     this.bubbleParticles.forEach((bubble) => {
       const t = bubble.isSmall ? Textures.bubbleSmallTexture : Textures.bubbleLargeTexture;
-      t.normal.draw(bubble.x + (Math.sin((Engine.ticks + bubble.offset) / 25) * 3) | 0, bubble.y);
+      t.normal.draw(bubble.x + Math.floor(Math.sin((Engine.ticks + bubble.offset) / 25) * 3), bubble.y);
     });
   }
 
