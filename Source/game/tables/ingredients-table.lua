@@ -68,6 +68,7 @@ function IngredientsTable.update(self, isSelected)
             elseif self.selectedStation == 2 then
                 self.activeStation = BurningStation(cb)
             elseif self.selectedStation == 3 then
+                self.activeStation = EnchantmentStation(cb)
             end
             Engine.shouldCountTicks = false
             playSound(nil, Sound.MENU_CONFIRM)
