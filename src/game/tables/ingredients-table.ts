@@ -6,7 +6,7 @@ import { playSound, Sound } from 'src/engine/sounds';
 import { Textures, Texture } from 'src/engine/textures';
 import { Ingredient, Ingredients, IngredientAction, ingredientDisplayName } from 'src/game/ingredients';
 import { getIngredientIcon } from 'src/game/recipes';
-// import { BurningStation } from 'src/game/stations/burning-station';
+import { BurningStation } from 'src/game/stations/burning-station';
 import { CuttingStation } from 'src/game/stations/cutting-station';
 // import { EnchantmentStation } from 'src/game/stations/enchantment-station';
 // import { GrindingStation } from 'src/game/stations/grinding-station';
@@ -81,7 +81,7 @@ export class IngredientsTable extends Table {
         } else if (this.selectedStation === 1) {
           // this.activeStation = new GrindingStation(cb);
         } else if (this.selectedStation === 2) {
-          // this.activeStation = new BurningStation(cb);
+          this.activeStation = new BurningStation(cb);
         } else if (this.selectedStation === 3) {
           // this.activeStation = new EnchantmentStation(cb);
         }

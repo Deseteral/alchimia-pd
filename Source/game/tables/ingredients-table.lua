@@ -66,6 +66,7 @@ function IngredientsTable.update(self, isSelected)
                 self.activeStation = CuttingStation(cb)
             elseif self.selectedStation == 1 then
             elseif self.selectedStation == 2 then
+                self.activeStation = BurningStation(cb)
             elseif self.selectedStation == 3 then
             end
             Engine.shouldCountTicks = false
