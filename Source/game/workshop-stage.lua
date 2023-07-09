@@ -103,6 +103,7 @@ function WorkshopStage.update(self)
         )
     end
     if self.ticksUntilDayOver < 0 and #Engine.state.orders == 0 then
+        Engine:changeStage(DaySummaryStage())
     end
 end
 function WorkshopStage.render(self)

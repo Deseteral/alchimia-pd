@@ -1,4 +1,4 @@
-// import { DaySummaryStage } from 'src/day - summary - stage';
+import { DaySummaryStage } from 'src/day-summary-stage';
 import { Engine } from 'src/engine/engine';
 import { Font } from 'src/engine/font';
 import { Input } from 'src/engine/input';
@@ -56,7 +56,7 @@ export class WorkshopStage extends Stage {
 
     // Transition to day summary screen
     if (this.ticksUntilDayOver < 0 && Engine.state.orders.length === 0) {
-      // Engine.changeStage(new DaySummaryStage());
+      Engine.changeStage(new DaySummaryStage());
     }
   }
 
