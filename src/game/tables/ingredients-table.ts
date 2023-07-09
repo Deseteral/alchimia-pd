@@ -9,7 +9,7 @@ import { getIngredientIcon } from 'src/game/recipes';
 import { BurningStation } from 'src/game/stations/burning-station';
 import { CuttingStation } from 'src/game/stations/cutting-station';
 import { EnchantmentStation } from 'src/game/stations/enchantment-station';
-// import { GrindingStation } from 'src/game/stations/grinding-station';
+import { GrindingStation } from 'src/game/stations/grinding-station';
 import { Station, StationCompleteCallback } from 'src/game/stations/station';
 import { Table } from 'src/game/tables/table';
 import { clamp, randomRange } from 'src/game/utils';
@@ -79,7 +79,7 @@ export class IngredientsTable extends Table {
         if (this.selectedStation === 0) {
           this.activeStation = new CuttingStation(cb);
         } else if (this.selectedStation === 1) {
-          // this.activeStation = new GrindingStation(cb);
+          this.activeStation = new GrindingStation(cb);
         } else if (this.selectedStation === 2) {
           this.activeStation = new BurningStation(cb);
         } else if (this.selectedStation === 3) {

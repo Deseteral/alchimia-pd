@@ -922,7 +922,8 @@ declare namespace playdate {
     export function fillCircleInRect(
       x: number,
       y: number,
-      radius: number
+      width: number,
+      height: number
     ): void;
     export function fillCircleInRect(p: Point, radius: number): void;
 

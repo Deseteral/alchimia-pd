@@ -65,6 +65,7 @@ function IngredientsTable.update(self, isSelected)
             if self.selectedStation == 0 then
                 self.activeStation = CuttingStation(cb)
             elseif self.selectedStation == 1 then
+                self.activeStation = GrindingStation(cb)
             elseif self.selectedStation == 2 then
                 self.activeStation = BurningStation(cb)
             elseif self.selectedStation == 3 then
