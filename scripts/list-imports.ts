@@ -1,25 +1,16 @@
 import * as fs from 'fs';
+import { execSync } from 'child_process';
 
-function walkTree(base: string = ''): string[] {
-  const rootImports = fs.readdirSync(`./Source/${base}`)
-    .filter((file) => file.endsWith('.lua'))
-    .filter((file) => file !== 'main.lua')
-    .filter((file) => file !== 'prelude.lua')
-    .filter((s) => s.length > 0)
-    .map((file) => `${base ? `${base}/` : ''}${file}`);
-
-  const dirsImports = fs.readdirSync(`./Source/${base}`)
-    .filter((file) => !file.includes('.'))
-    .filter((file) => file !== 'pdxinfo')
-    .filter((s) => s.length > 0)
-    .flatMap((dir) => walkTree(base ? `${base}/${dir}` : dir));
-
-  return [...rootImports, ...dirsImports];
+function walkTree(): string[] {
+  return execSync('find ./Source -name "*.lua" -type f ! -name "main.lua" ! -name "prelude.lua"')
+    .toString()
+    .split('\n')
+    .filter((line) => line.length > 0);
 }
 
 function defineExportsAsGlobals(filePath: string): void {
-  const fullFilePath = `./Source/${filePath}`;
-  const lines = fs.readFileSync(fullFilePath, { encoding: 'utf8' }).split('\n');
+  console.log(filePath);
+  const lines = fs.readFileSync(filePath, { encoding: 'utf8' }).split('\n');
 
   const identifiers = lines
     .map((line) => {
@@ -42,9 +33,7 @@ function defineExportsAsGlobals(filePath: string): void {
     returnStatement,
   ].join('\n');
 
-  fs.writeFileSync(fullFilePath, fileContents, { encoding: 'utf8' });
+  fs.writeFileSync(filePath, fileContents, { encoding: 'utf8' });
 }
 
-const files = walkTree();
-
-files.forEach((file) => defineExportsAsGlobals(file));
+walkTree().forEach((file) => defineExportsAsGlobals(file));
