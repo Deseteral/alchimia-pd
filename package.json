@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npm run clean && tstl && npm run build:list-imports && pdc Source",
-    "build:list-imports": "ts-node ./scripts/list-imports.ts",
+    "build": "npm run clean && tstl && npm run build:meta && pdc Source",
+    "build:meta": "ts-node ./scripts/build-meta.ts",
     "start": "open Source.pdx",
     "clean": "find ./Source -name \"*.lua\" -type f -delete"
   },
