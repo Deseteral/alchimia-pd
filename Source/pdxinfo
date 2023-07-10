@@ -1,5 +1,5 @@
 name=alchimia
 author=Deseteral
-description=alchimia but Playdate
+description=After 10 long years of studying you can finally fulfill your dreams - opening your own potion shop.
 bundleID=xyz.deseteral.alchimia
-imagePath=
+imagePath=launcher_assets
