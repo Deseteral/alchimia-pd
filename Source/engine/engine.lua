@@ -13,14 +13,15 @@ function Engine.changeStage(self, nextStage)
     self.activeStage:onActivate()
 end
 function Engine.saveGame(self)
-    print("TODO: saveGame is not implemented")
+    playdate.datastore.write(Engine.state, "data", true)
 end
 function Engine.hasSavedData(self)
-    print("TODO: hasSavedData is not implemented")
-    return false
+    local data = playdate.datastore.read()
+    return data ~= nil
 end
 function Engine.loadGame(self)
-    print("TODO: loadGame is not implemented")
+    local data = playdate.datastore.read()
+    Engine.state = data
 end
 function Engine.newGame(self)
     Engine.state = {

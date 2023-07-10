@@ -22,16 +22,17 @@ abstract class Engine {
   }
 
   static saveGame(): void {
-    console.log('TODO: saveGame is not implemented');
+    playdate.datastore.write(Engine.state, 'data', true);
   }
 
   static hasSavedData(): boolean {
-    console.log('TODO: hasSavedData is not implemented');
-    return false;
+    const data = playdate.datastore.read();
+    return data !== undefined;
   }
 
   static loadGame(): void {
-    console.log('TODO: loadGame is not implemented');
+    const data = playdate.datastore.read();
+    Engine.state = data as GameState;
   }
 
   static newGame(): void {
