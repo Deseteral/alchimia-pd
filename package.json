@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npm run clean && tstl && npm run build:meta && pdc Source",
+    "build": "npm run clean && mkdir -p ./dist && tstl && npm run build:meta && pdc ./Source ./dist/alchimia.pdx",
     "build:meta": "ts-node ./scripts/build-meta.ts",
-    "start": "open Source.pdx",
-    "clean": "find ./Source -name \"*.lua\" -type f -delete"
+    "start": "open ./dist/alchimia.pdx",
+    "clean": "find ./Source -name \"*.lua\" -type f -delete && rm -rf ./dist"
   },
   "author": "",
   "license": "ISC",
