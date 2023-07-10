@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import { execSync } from 'child_process';
 
-function walkTree(): string[] {
+function listLuaModules(): string[] {
   return execSync('find ./Source -name "*.lua" -type f ! -name "main.lua" ! -name "prelude.lua"')
     .toString()
     .split('\n')
@@ -36,4 +36,4 @@ function defineExportsAsGlobals(filePath: string): void {
   fs.writeFileSync(filePath, fileContents, { encoding: 'utf8' });
 }
 
-walkTree().forEach((file) => defineExportsAsGlobals(file));
+listLuaModules().forEach((file) => defineExportsAsGlobals(file));
