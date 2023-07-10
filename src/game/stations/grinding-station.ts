@@ -83,10 +83,9 @@ export class GrindingStation extends Station {
 
     const helpWidth = 150;
     const helpX = Engine.width - helpWidth - 9 - 2;
-    drawFrame(helpX, yy, helpWidth, 39, () => {
-      Font.draw('Move the mouse cursor', helpX, yy, true);
-      Font.draw('around the circle to', helpX, yy + 12, true);
-      Font.draw('grind the ingredient', helpX, yy + 12 * 2, true);
+    drawFrame(helpX, yy, helpWidth, 26, () => {
+      Font.draw('Turn the crank to', helpX, yy, true);
+      Font.draw('grind the ingredient', helpX, yy + 12, true);
     });
   }
 }

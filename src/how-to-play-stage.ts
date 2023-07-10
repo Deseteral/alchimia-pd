@@ -7,8 +7,8 @@ import { MainMenuStage } from 'src/main-menu-stage';
 
 class HowToPlayStage extends Stage {
   lines = [
-    'Use WASD or arrow keys to move',
-    'Esc to go back, Enter to confirm/activate',
+    'Use directional buttons to move',
+    'B to go back, A to confirm/activate',
     '',
     'Every 10 seconds new customer comes in',
     'Press down to pull the recipe book and search for',
@@ -21,7 +21,7 @@ class HowToPlayStage extends Stage {
     '',
     'Created in 48 hours for Ludum Dare 51',
     '',
-    'Press escape to go back',
+    'Press B to go back',
   ];
 
   onActivate(): void {

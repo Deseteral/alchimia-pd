@@ -35,7 +35,7 @@ export class DaySummaryStage extends Stage {
         Font.draw('to pay off the debt', x, y + 50 + 15 * 5, true);
       }
 
-      Font.draw('Press Enter to continue', x, y + 50 + 15 * 7, true);
+      Font.draw('Press A to continue', x, y + 50 + 15 * 7, true);
     });
   }
 

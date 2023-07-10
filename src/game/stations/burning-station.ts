@@ -95,7 +95,7 @@ export class BurningStation extends Station {
     const helpWidth = 170;
     const helpX = Engine.width - helpWidth - 9 - 2;
     drawFrame(helpX, y, helpWidth, 50, () => {
-      Font.draw('Press the up key to move', helpX, y, true);
+      Font.draw('Turn the crank to move', helpX, y, true);
       Font.draw('burning zone up. Keep', helpX, y + 12, true);
       Font.draw('the cursor in the zone', helpX, y + 12 * 2, true);
       Font.draw('to burn the ingredient.', helpX, y + 12 * 3, true);

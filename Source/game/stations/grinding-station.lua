@@ -82,11 +82,10 @@ function GrindingStation.render(self)
         helpX,
         yy,
         helpWidth,
-        39,
+        26,
         function()
-            Font:draw("Move the mouse cursor", helpX, yy, true)
-            Font:draw("around the circle to", helpX, yy + 12, true)
-            Font:draw("grind the ingredient", helpX, yy + 12 * 2, true)
+            Font:draw("Turn the crank to", helpX, yy, true)
+            Font:draw("grind the ingredient", helpX, yy + 12, true)
         end
     )
 end
