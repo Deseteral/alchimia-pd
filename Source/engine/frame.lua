@@ -11,7 +11,9 @@ function ____exports.drawFrame(self, x, y, w, h, clippingRegion)
         patchSize
     )
     slice:drawInRect(x - patchSize, y - patchSize, w + patchSize * 2, h + patchSize * 2)
+    playdate.graphics.setScreenClipRect(x, y, w, h)
     clippingRegion(nil)
+    playdate.graphics.clearClipRect()
 end
 drawFrame = ____exports.drawFrame
 return ____exports

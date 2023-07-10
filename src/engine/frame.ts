@@ -7,10 +7,7 @@ export function drawFrame(x: number, y: number, w: number, h: number, clippingRe
   slice.drawInRect(x - patchSize, y - patchSize, w + patchSize * 2, h + patchSize * 2);
 
   // Clipping content inside
-  // ctx.save();
-  // ctx.beginPath();
-  // ctx.rect(x, y, w, h);
-  // ctx.clip();
+  playdate.graphics.setScreenClipRect(x, y, w, h);
   clippingRegion();
-  // ctx.restore();
+  playdate.graphics.clearClipRect();
 }
