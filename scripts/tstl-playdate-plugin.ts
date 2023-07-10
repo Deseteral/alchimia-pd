@@ -19,12 +19,12 @@ import { transformCallAndArguments } from 'typescript-to-lua/dist/transformation
 function createClassCall(
   context: tstl.TransformationContext,
   className: tstl.Identifier,
-  extendsNode?: ts.ExpressionWithTypeArguments
+  extendsNode?: ts.ExpressionWithTypeArguments,
 ): tstl.Statement {
   // class('X')
   const classCall = tstl.createCallExpression(
     tstl.createIdentifier('class'),
-    [tstl.createStringLiteral(className.text)]
+    [tstl.createStringLiteral(className.text)],
   );
   let classCreationExpression: tstl.Expression = classCall;
   if (extendsNode) {
@@ -32,17 +32,17 @@ function createClassCall(
     classCreationExpression = tstl.createCallExpression(
       tstl.createTableIndexExpression(
         classCall,
-        tstl.createStringLiteral('extends')
+        tstl.createStringLiteral('extends'),
       ),
-      [context.transformExpression(extendsNode.expression)]
+      [context.transformExpression(extendsNode.expression)],
     );
   } else {
     classCreationExpression = tstl.createCallExpression(
       tstl.createTableIndexExpression(
         classCall,
-        tstl.createStringLiteral('extends')
+        tstl.createStringLiteral('extends'),
       ),
-      [tstl.createIdentifier('Object')]
+      [tstl.createIdentifier('Object')],
     );
   }
   return tstl.createExpressionStatement(classCreationExpression);
@@ -50,13 +50,15 @@ function createClassCall(
 
 export function transformPropertyName(
   context: TransformationContext,
-  node: ts.PropertyName
+  node: ts.PropertyName,
 ): tstl.Expression {
   if (ts.isComputedPropertyName(node)) {
     return context.transformExpression(node.expression);
-  } else if (ts.isIdentifier(node)) {
+  }
+  if (ts.isIdentifier(node)) {
     return tstl.createStringLiteral(node.text);
-  } else if (ts.isPrivateIdentifier(node)) {
+  }
+  if (ts.isPrivateIdentifier(node)) {
     throw new Error('PrivateIdentifier is not supported');
   } else {
     return context.transformExpression(node);
@@ -67,7 +69,7 @@ function transformConstructor(
   context: TransformationContext,
   className: tstl.Identifier,
   instanceFields: ts.PropertyDeclaration[],
-  constructor?: ts.ConstructorDeclaration
+  constructor?: ts.ConstructorDeclaration,
 ): tstl.Statement | undefined {
   const methodName = 'init';
   context.pushScope(ScopeType.Function);
@@ -77,10 +79,10 @@ function transformConstructor(
     ([params] = transformParameters(
       context,
       constructor?.parameters,
-      tstl.createIdentifier('self')
+      tstl.createIdentifier('self'),
     ));
   } else {
-    params = [tstl.createIdentifier('self')]
+    params = [tstl.createIdentifier('self')];
   }
   bodyStatements.push(
     tstl.createExpressionStatement(
@@ -88,17 +90,17 @@ function transformConstructor(
         tstl.createTableIndexExpression(
           tstl.createTableIndexExpression(
             className,
-            tstl.createStringLiteral('super')
+            tstl.createStringLiteral('super'),
           ),
-          tstl.createStringLiteral('init')
+          tstl.createStringLiteral('init'),
         ),
-        params
-      )
-    )
+        params,
+      ),
+    ),
   );
   const classInstanceFields = transformClassInstanceFields(
     context,
-    instanceFields
+    instanceFields,
   );
   // initializers have to come before any body of the constructor
   bodyStatements.push(...classInstanceFields);
@@ -124,24 +126,24 @@ function transformConstructor(
   return tstl.createAssignmentStatement(
     tstl.createTableIndexExpression(
       className,
-      tstl.createStringLiteral(methodName)
+      tstl.createStringLiteral(methodName),
     ),
-    tstl.createFunctionExpression(tstl.createBlock(bodyStatements), params)
+    tstl.createFunctionExpression(tstl.createBlock(bodyStatements), params),
   );
 }
 
 function transformMethodDeclaration(
   context: TransformationContext,
   node: ts.MethodDeclaration,
-  className: tstl.Identifier
+  className: tstl.Identifier,
 ): tstl.Statement | undefined {
   const [functionExpression] = transformFunctionToExpression(context, node);
   return tstl.createAssignmentStatement(
     tstl.createTableIndexExpression(
       className,
-      transformPropertyName(context, node.name)
+      transformPropertyName(context, node.name),
     ),
-    functionExpression
+    functionExpression,
   );
 }
 
@@ -154,7 +156,7 @@ export const transformClassDeclaration: FunctionVisitor<
   } else {
     className = tstl.createIdentifier(
       context.createTempName('class'),
-      declaration
+      declaration,
     );
   }
 
@@ -178,14 +180,13 @@ export const transformClassDeclaration: FunctionVisitor<
   //   X.super.init(self)
   // end
   const constructor = declaration.members.find(
-    (n): n is ts.ConstructorDeclaration =>
-      ts.isConstructorDeclaration(n) && n.body !== undefined
+    (n): n is ts.ConstructorDeclaration => ts.isConstructorDeclaration(n) && n.body !== undefined,
   );
   const transformedConstructor = transformConstructor(
     context,
     className,
     instanceFields,
-    constructor
+    constructor,
   );
   if (transformedConstructor) {
     statements.push(transformedConstructor);
@@ -193,10 +194,10 @@ export const transformClassDeclaration: FunctionVisitor<
 
   const methods = declaration.members
     .filter(ts.isMethodDeclaration)
-    .filter(node => {
+    .filter((node) => {
       // Skip abstact method declarations.
       const modifiers = ts.getModifiers(node);
-      const isAbstract = modifiers?.some(modifier => modifier.kind === ts.SyntaxKind.AbstractKeyword);
+      const isAbstract = modifiers?.some((modifier) => modifier.kind === ts.SyntaxKind.AbstractKeyword);
       return !isAbstract;
     })
     .map((method) => transformMethodDeclaration(context, method, className))
@@ -215,14 +216,14 @@ export const transformClassDeclaration: FunctionVisitor<
 
 const transformNewExpression: FunctionVisitor<ts.NewExpression> = (
   node,
-  context
+  context,
 ) => {
   const signature = context.checker.getResolvedSignature(node);
   const [name, params] = transformCallAndArguments(
     context,
     node.expression,
     node.arguments ?? [ts.factory.createTrue()],
-    signature
+    signature,
   );
   return tstl.createCallExpression(name, params);
 };
@@ -243,12 +244,13 @@ const plugin: tstl.Plugin = {
         // @ts-ignore
         normalNode.expression.originalName = 'import';
         return normalNode;
-      } else {
-        return context.superTransformExpression(node);
       }
+      return context.superTransformExpression(node);
     },
     [ts.SyntaxKind.ImportDeclaration]: () => undefined,
     [ts.SyntaxKind.ExportDeclaration]: () => undefined,
   },
 };
+
+// eslint-disable-next-line import/no-default-export
 export default plugin;
