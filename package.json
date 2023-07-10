@@ -1,16 +1,13 @@
 {
   "name": "alchimia-pd",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
   "scripts": {
     "build": "npm run clean && mkdir -p ./dist && tstl && npm run build:meta && pdc ./Source ./dist/alchimia.pdx",
     "build:meta": "ts-node ./scripts/build-meta.ts",
     "start": "open ./dist/alchimia.pdx",
     "clean": "find ./Source -name \"*.lua\" -type f -delete && rm -rf ./dist"
   },
-  "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@types/node": "20.3.3",
     "lua-types": "^2.13.0",
