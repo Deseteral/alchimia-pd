@@ -190,6 +190,8 @@ export class BrewingTable extends Table {
       drawFrame(11, 11, listWidth, 218, () => {
         Font.draw('Storage', 12, 8);
 
+        if (Engine.state.preparedIngredients.length === 0) return;
+
         const page: number = Math.floor(this.ingredientCursor / maxCountOnPage);
         const startIdx: number = page * maxCountOnPage;
 

@@ -314,6 +314,9 @@ function BrewingTable.render(self)
             218,
             function()
                 Font:draw("Storage", 12, 8)
+                if #Engine.state.preparedIngredients == 0 then
+                    return
+                end
                 local page = math.floor(self.ingredientCursor / maxCountOnPage)
                 local startIdx = page * maxCountOnPage
                 do
