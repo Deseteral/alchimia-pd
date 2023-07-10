@@ -2,14 +2,13 @@ import * as fs from 'fs';
 import { execSync } from 'child_process';
 
 function listLuaModules(): string[] {
-  return execSync('find ./Source -name "*.lua" -type f ! -name "main.lua" ! -name "prelude.lua"')
+  return execSync('find ./Source -name "*.lua" -type f ! -name "main.lua"')
     .toString()
     .split('\n')
     .filter((line) => line.length > 0);
 }
 
 function defineExportsAsGlobals(filePath: string): void {
-  console.log(filePath);
   const lines = fs.readFileSync(filePath, { encoding: 'utf8' }).split('\n');
 
   const identifiers = lines
