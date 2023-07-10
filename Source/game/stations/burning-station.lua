@@ -10,19 +10,18 @@ BurningStation.init = function(self, cb)
     self.nextTargetY = self:randomNextTargetY()
     self.ticksToNextTarget = 50
     self.progress = 0
+    playdate.ui.crankIndicator:start()
 end
 function BurningStation.randomNextTargetY(self)
     return math.floor(randomRange(nil, 0, self.barHeight))
 end
 function BurningStation.update(self)
-    local cursorSpeed = 2
     local gravity = 1
     local progressSpeed = 0.004
     local progressDrain = progressSpeed / 2
     self.ticksToNextTarget = self.ticksToNextTarget - 1
-    if Input:getKey("up") then
-        self.cursorY = self.cursorY + cursorSpeed
-    end
+    local cursorSpeed = (playdate.getCrankChange()) * 0.2
+    self.cursorY = self.cursorY + cursorSpeed
     self.cursorY = self.cursorY - gravity
     self.cursorY = clamp(nil, self.cursorY, 0, self.barHeight - self.cursorHeight)
     self.targetY = self.targetY + (self.nextTargetY - self.targetY) * 0.1
@@ -44,6 +43,9 @@ function BurningStation.update(self)
     end
 end
 function BurningStation.render(self)
+    if playdate.isCrankDocked() then
+        playdate.ui.crankIndicator:update()
+    end
     local x = 140
     local y = 28
     local w = 20

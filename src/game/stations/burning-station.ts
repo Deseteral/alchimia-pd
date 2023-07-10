@@ -19,6 +19,7 @@ export class BurningStation extends Station {
 
   constructor(cb: StationCompleteCallback) {
     super(cb);
+    playdate.ui.crankIndicator.start();
   }
 
   randomNextTargetY(): number {
@@ -26,7 +27,7 @@ export class BurningStation extends Station {
   }
 
   update(): void {
-    const cursorSpeed = 2;
+    // const cursorSpeed = 2;
     const gravity = 1;
     const progressSpeed = 0.004;
     const progressDrain = (progressSpeed / 2);
@@ -34,7 +35,9 @@ export class BurningStation extends Station {
     this.ticksToNextTarget -= 1;
 
     // Move cursor
-    if (Input.getKey('up')) this.cursorY += cursorSpeed;
+    const cursorSpeed = playdate.getCrankChange()[0] * 0.2;
+    this.cursorY += cursorSpeed;
+
     this.cursorY -= gravity;
     this.cursorY = clamp(this.cursorY, 0, (this.barHeight - this.cursorHeight));
 
@@ -62,6 +65,10 @@ export class BurningStation extends Station {
   }
 
   render(): void {
+    if (playdate.isCrankDocked()) {
+      playdate.ui.crankIndicator.update();
+    }
+
     const x = 140;
     const y = 28;
     const w = 20;

@@ -216,7 +216,7 @@ declare namespace playdate {
   /** @noSelf */
   export function getCrankPosition(): number;
   /** @noSelf */
-  export function getCrankChange(): number;
+  export function getCrankChange(): LuaMultiReturn<[number, number]>;
   /** @noSelf */
   export function getCrankTicks(ticksPerRevolution: number): number;
 
