@@ -8,15 +8,13 @@
     "clean": "find ./Source -name \"*.lua\" -type f -delete && rm -rf ./dist"
   },
   "license": "MIT",
-  "dependencies": {
-    "@types/node": "20.3.3",
-    "lua-types": "^2.13.0",
-    "ts-node": "^10.9.1",
-    "typescript": "5.1.6",
-    "typescript-to-lua": "1.16.2"
-  },
   "devDependencies": {
     "@deseteral/eslint-config": "7.0.0",
-    "eslint": "8.43.0"
+    "@types/node": "20.4.1",
+    "eslint": "8.44.0",
+    "lua-types": "2.13.1",
+    "ts-node": "10.9.1",
+    "typescript-to-lua": "1.16.3",
+    "typescript": "5.1.6"
   }
 }
